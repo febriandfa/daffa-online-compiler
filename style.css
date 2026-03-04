@@ -1,0 +1,493 @@
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --panel: #16161f;
+  --border: #252535;
+  --accent-js: #f7df1e;
+  --accent-go: #00acd7;
+  --accent-active: #f7df1e;
+  --text: #e8e8f0;
+  --muted: #5a5a7a;
+  --success: #4ade80;
+  --error: #f87171;
+  --glow-js: rgba(247, 223, 30, 0.15);
+  --glow-go: rgba(0, 172, 215, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.logo {
+  font-family: "Syne", sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  background: linear-gradient(135deg, #fff 0%, var(--muted) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo span {
+  background: linear-gradient(135deg, var(--accent-js), var(--accent-go));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lang-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--bg);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.lang-btn {
+  padding: 6px 20px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-btn .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.lang-btn.js .dot {
+  background: var(--accent-js);
+}
+.lang-btn.go .dot {
+  background: var(--accent-go);
+}
+
+.lang-btn.active {
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 0 0 1px var(--border);
+}
+
+.lang-btn.js.active {
+  box-shadow:
+    0 0 12px var(--glow-js),
+    0 0 0 1px rgba(247, 223, 30, 0.3);
+}
+.lang-btn.go.active {
+  box-shadow:
+    0 0 12px var(--glow-go),
+    0 0 0 1px rgba(0, 172, 215, 0.3);
+}
+
+.run-btn {
+  padding: 8px 24px;
+  background: var(--accent-active);
+  color: #000;
+  border: none;
+  border-radius: 7px;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.run-btn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+.run-btn:active {
+  transform: translateY(0);
+}
+.run-btn.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.run-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* MAIN LAYOUT */
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+  overflow: hidden;
+  gap: 0;
+}
+
+/* EDITOR PANE */
+.editor-pane {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.pane-header {
+  padding: 10px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.pane-header .indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-active);
+  box-shadow: 0 0 8px currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.editor-area {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+}
+
+.line-numbers {
+  padding: 16px 12px 16px 8px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  text-align: right;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  user-select: none;
+  min-width: 48px;
+  overflow: hidden;
+  flex-shrink: 0;
+  white-space: pre;
+}
+
+#code-editor {
+  flex: 1;
+  padding: 16px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  border: none;
+  outline: none;
+  resize: none;
+  tab-size: 2;
+  overflow-y: auto;
+  overflow-x: auto;
+  white-space: pre;
+  caret-color: var(--accent-active);
+}
+
+#code-editor::selection {
+  background: rgba(247, 223, 30, 0.15);
+}
+
+/* STDIN */
+.stdin-section {
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.stdin-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--panel);
+  border: none;
+  color: var(--muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  transition: color 0.2s;
+  border-top: 1px solid var(--border);
+}
+
+.stdin-toggle:hover {
+  color: var(--text);
+}
+.stdin-toggle .arrow {
+  transition: transform 0.2s;
+}
+.stdin-toggle.open .arrow {
+  transform: rotate(90deg);
+}
+
+#stdin-input {
+  display: none;
+  width: 100%;
+  background: var(--bg);
+  border: none;
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  padding: 12px 16px;
+  height: 80px;
+  resize: none;
+  outline: none;
+  border-top: 1px solid var(--border);
+}
+
+#stdin-input.visible {
+  display: block;
+}
+
+/* OUTPUT PANE */
+.output-pane {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.output-header {
+  padding: 10px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.output-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.output-badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  display: none;
+}
+
+.output-badge.ok {
+  background: rgba(74, 222, 128, 0.15);
+  color: var(--success);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+}
+.output-badge.fail {
+  background: rgba(248, 113, 113, 0.15);
+  color: var(--error);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+.exec-time {
+  font-size: 10px;
+  color: var(--muted);
+  display: none;
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 10px;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.clear-btn:hover {
+  color: var(--text);
+  background: var(--border);
+}
+
+#output {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.output-empty {
+  color: var(--muted);
+  font-style: italic;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  text-align: center;
+}
+
+.output-empty svg {
+  opacity: 0.2;
+  width: 48px;
+  height: 48px;
+}
+
+.output-empty p {
+  font-size: 12px;
+}
+
+.output-stdout {
+  color: var(--text);
+}
+.output-stderr {
+  color: var(--error);
+}
+.output-info {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* SPINNER */
+.spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* STATUS BAR */
+.statusbar {
+  height: 24px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.status-item {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-item.lang {
+  color: var(--accent-active);
+}
+
+/* Transition for lang switch */
+.lang-switch {
+  transition: --accent-active 0.3s;
+}
+
+/* Highlight glow on editor when go is selected */
+body.lang-go {
+  --accent-active: var(--accent-go);
+  --glow-active: var(--glow-go);
+}
+body.lang-js {
+  --accent-active: var(--accent-js);
+  --glow-active: var(--glow-js);
+}
+
+body.lang-go #code-editor::selection {
+  background: rgba(0, 172, 215, 0.15);
+}

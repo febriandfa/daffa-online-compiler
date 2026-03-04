@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daffa Online Compiler</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="lang-js">
+    <header>
+      <div class="logo">Daffa<span>Compiler</span></div>
+
+      <div class="lang-tabs">
+        <button class="lang-btn js active" onclick="switchLang('js')"><span class="dot"></span> JavaScript</button>
+        <button class="lang-btn go" onclick="switchLang('go')"><span class="dot"></span> Go</button>
+      </div>
+
+      <button class="run-btn" id="run-btn" onclick="runCode()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+        RUN
+      </button>
+    </header>
+
+    <div class="workspace">
+      <!-- EDITOR -->
+      <div class="editor-pane">
+        <div class="pane-header">
+          <span class="indicator"></span>
+          <span id="filename">main.js</span>
+        </div>
+        <div class="editor-area">
+          <div class="line-numbers" id="line-numbers">1</div>
+          <textarea id="code-editor" spellcheck="false" autocomplete="off" autocorrect="off"></textarea>
+        </div>
+
+        <div class="stdin-section">
+          <button class="stdin-toggle" id="stdin-toggle" onclick="toggleStdin()"><span class="arrow">▶</span> stdin / input</button>
+          <textarea id="stdin-input" placeholder="stdin input here..."></textarea>
+        </div>
+      </div>
+
+      <!-- OUTPUT -->
+      <div class="output-pane">
+        <div class="output-header">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span>output</span>
+            <span class="output-badge" id="status-badge">OK</span>
+          </div>
+          <div class="output-meta">
+            <span class="exec-time" id="exec-time"></span>
+            <button class="clear-btn" onclick="clearOutput()">clear</button>
+          </div>
+        </div>
+        <div id="output">
+          <div class="output-empty" id="output-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <p>Press <strong>RUN</strong> to execute your code</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="statusbar">
+      <div class="status-item lang" id="status-lang">● JavaScript</div>
+      <div class="status-item" id="status-cursor">Ln 1, Col 1</div>
+      <div class="status-item">UTF-8</div>
+      <div class="status-item" id="status-api">Piston API</div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
