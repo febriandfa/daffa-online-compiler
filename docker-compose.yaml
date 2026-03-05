@@ -1,0 +1,19 @@
+services:
+  frontend:
+    build: .
+    container_name: frontend
+    ports:
+      - "8081:8081"
+    depends_on:
+      - backend
+    restart: always
+
+  backend:
+    image: ghcr.io/engineer-man/piston:latest
+    container_name: api_piston
+    privileged: true
+    volumes:
+      - ./piston:/piston
+    ports:
+      - "2000:2000"
+    restart: always
