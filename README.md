@@ -31,7 +31,7 @@ Setelah container berjalan, install runtime bahasa yang dibutuhkan:
 ```bash
 curl -X POST http://localhost:2000/api/v2/packages \
   -H "Content-Type: application/json" \
-  -d '{"language":"javascript","version":"20.11.1"}'
+  -d '{"language":"node","version":"20.11.1"}'
 ```
 
 #### Python
